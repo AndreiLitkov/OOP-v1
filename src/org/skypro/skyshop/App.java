@@ -60,6 +60,7 @@ public class App {
         basket1.printBasket();
         System.out.println(basket1.hasProduct("Beef"));
         System.out.println("Стоимость корзины продуктов = " + basket1.getTotalPrice());
+
         System.out.println("==========================");
         System.out.println("Полиморфизм и интерфейсы проверка");
 

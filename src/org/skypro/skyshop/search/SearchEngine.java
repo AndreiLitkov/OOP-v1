@@ -8,6 +8,7 @@ public class SearchEngine {
     }
 
     public void add(Searchable searchable) {
+
         for (int i = 0; i < searchables.length; i++) {
             if (searchables[i] == null) {
                 searchables[i] = searchable;

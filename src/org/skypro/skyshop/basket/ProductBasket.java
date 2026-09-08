@@ -5,6 +5,7 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 
 public class ProductBasket {
+
     private final Product[] products;
 
     public ProductBasket() {
