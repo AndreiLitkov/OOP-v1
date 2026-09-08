@@ -2,53 +2,42 @@ package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.product.BestResultNotFound;
 
-public class SearchEngine {
-    private Searchable[] searchables;
+import java.util.LinkedList;
+import java.util.List;
 
-    public SearchEngine(int size) {
-        searchables = new Searchable[size];
+public class SearchEngine {
+    private LinkedList<Searchable> searchables;
+
+    public SearchEngine() {
+        searchables = new LinkedList<>();
     }
 
     public void add(Searchable searchable) {
-
-        for (int i = 0; i < searchables.length; i++) {
-            if (searchables[i] == null) {
-                searchables[i] = searchable;
-                return;
-            }
-        }
+        searchables.add(searchable);
     }
 
-    public Searchable[] search(String searchTerm) {
-
-        Searchable[] results = new Searchable[5];
-        int resultIndex = 0;
+    public List<Searchable> search(String searchTerm) {
+        List<Searchable> results = new LinkedList<>();
 
         for (Searchable searchable : searchables) {
-
             if (searchable == null) {
                 continue;
             }
-
             if (searchable.getSearchTerm().contains(searchTerm)) {
-                results[resultIndex] = searchable;
-                resultIndex++;
-
-                if (resultIndex == 5) {
-                    break;
-                }
+                results.add(searchable);
             }
         }
-
         return results;
     }
-    public Searchable findBestMatch(String search) throws BestResultNotFound {
+    public Searchable findBestMatch(String search)
+            throws BestResultNotFound {
 
+        if (search == null || search.isEmpty()) {
+            throw new BestResultNotFound(search);
+        }
         Searchable bestMatch = null;
         int maxMatches = 0;
-
         for (Searchable searchable : searchables) {
-
             if (searchable == null) {
                 continue;
             }
@@ -56,6 +45,7 @@ public class SearchEngine {
             int matches = 0;
             int index = 0;
             int substringIndex = searchTerm.indexOf(search, index);
+
             while (substringIndex != -1) {
                 matches++;
                 index = substringIndex + search.length();

@@ -8,6 +8,7 @@ import org.skypro.skyshop.search.Searchable;
 
 import java.sql.SQLOutput;
 import java.util.Arrays;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
@@ -33,7 +34,7 @@ public class App {
         System.out.println("Добавление продукта который не поместится в корзину");
         basket1.addProduct(product5);
 
-        basket1.clearBasket();// очитска коризины
+        //basket1.clearBasket();// очитска коризины
         System.out.println(" ");
         System.out.println("Содержимое корзины после очистки");
         basket1.printBasket();
@@ -49,19 +50,19 @@ public class App {
         System.out.println("Стоимость корзины продуктов = " + basket1.getTotalPrice());
 
 
-        System.out.println(basket1.hasProduct("Batat"));
-        System.out.println(basket1.hasProduct("Beef"));
+//        System.out.println(basket1.hasProduct("Batat"));
+//        System.out.println(basket1.hasProduct("Beef"));
 
         System.out.println(" ");
-        basket1.clearBasket();
+//        basket1.clearBasket();
         basket1.printBasket();
-        System.out.println(basket1.hasProduct("Beef"));
+//        System.out.println(basket1.hasProduct("Beef"));
         System.out.println("Стоимость корзины продуктов = " + basket1.getTotalPrice());
 
         System.out.println("==========================");
         System.out.println("Полиморфизм и интерфейсы проверка");
 
-        SearchEngine searchEngine = new SearchEngine(10);
+        SearchEngine searchEngine = new SearchEngine();
         FixPriceProduct coffee = new FixPriceProduct("Coffe", 200);
         SimpleProduct milk = new SimpleProduct("Milk", 100);
         DiscountedProduct cheese = new DiscountedProduct("Cheese", 100, 20);
@@ -74,21 +75,21 @@ public class App {
         Article article2 = new Article("Milk", "Milk has calcium");
         Article article3 = new Article("Cheese", "Cheese has different types");
 
-        searchEngine.add(article1);
-        searchEngine.add(article2);
-        searchEngine.add(article3);
-
-        System.out.println(Arrays.toString(searchEngine.search("Coffee")));
-        System.out.println(Arrays.toString(searchEngine.search("Cheese")));
-
-        Searchable[] result = searchEngine.search("Milk");
-        System.out.println(Arrays.toString(result));
-        for (Searchable searchable : result) {
-            if (searchable != null) {
-                System.out.println(searchable.getStringRepresentation());
-            }
-
-        }
+//        searchEngine.add(article1);
+//        searchEngine.add(article2);
+//        searchEngine.add(article3);
+//
+//        System.out.println(Arrays.toString(searchEngine.search("Coffee")));
+//        System.out.println(Arrays.toString(searchEngine.search("Cheese")));
+//
+//        Searchable[] result = searchEngine.search("Milk");
+//        System.out.println(Arrays.toString(result));
+//        for (Searchable searchable : result) {
+//            if (searchable != null) {
+//                System.out.println(searchable.getStringRepresentation());
+//            }
+//
+//        }
 
         System.out.println("======================");
         System.out.println("Исключения");
@@ -143,7 +144,7 @@ public class App {
         Article article11 = new Article("Кофе","Кофе является популярным напитком.");
         Article article12 = new Article("Хлеб", "Хлеб — важный продукт.");
 
-        SearchEngine searchEngine1 = new SearchEngine(10);
+        SearchEngine searchEngine1 = new SearchEngine();
         searchEngine1.add(milk1);
         searchEngine1.add(bread);
         searchEngine1.add(coffee1);
@@ -164,5 +165,40 @@ public class App {
         } catch (BestResultNotFound e) {
             System.out.println(e.getMessage());
         }
+
+        System.out.println("===============");
+        System.out.println("Java Collections Framework: List");
+
+        ProductBasket productBasket2 = new ProductBasket();
+        productBasket2.addProduct(milk1);
+        productBasket2.addProduct(bread);
+        productBasket2.addProduct(coffee1);
+
+        System.out.println("Удаляем Молоко:");
+
+        List<Product> removedProducts = productBasket2.removeProductsByName("Молоко");
+        for (Product product : removedProducts) {
+            System.out.println(product);
+        }
+        productBasket2.printBasket();
+
+        System.out.println("Удаляем Самолёт:");
+
+        List<Product> removedProducts2 = productBasket2.removeProductsByName("Самолёт");
+
+        if (removedProducts2.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            for (Product product : removedProducts2) {
+                System.out.println(product);
+            }
+        }
+        productBasket2.printBasket();
+
+        List<Searchable> results = searchEngine1.search("Хлеб");
+        for (Searchable result : results) {
+            System.out.println(result.getStringRepresentation());
+        }
+
     }
 }
