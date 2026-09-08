@@ -2,6 +2,7 @@ package org.skypro.skyshop.product;
 
 public class DiscountedProduct extends Product {
 
+
     public static int counterDiscount = 0;
     private int basicPrice;
     private int discountPercent;

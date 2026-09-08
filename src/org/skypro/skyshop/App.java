@@ -1,10 +1,16 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.articles.Article;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.SearchEngine;
+import org.skypro.skyshop.search.Searchable;
+
+import java.sql.SQLOutput;
+import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) {
@@ -54,6 +60,37 @@ public class App {
         basket1.printBasket();
         System.out.println(basket1.hasProduct("Beef"));
         System.out.println("Стоимость корзины продуктов = " + basket1.getTotalPrice());
-    }
 
+        System.out.println("==========================");
+        System.out.println("Полиморфизм и интерфейсы проверка");
+
+        SearchEngine searchEngine = new SearchEngine(10);
+        FixPriceProduct coffee = new FixPriceProduct("Coffe", 200);
+        SimpleProduct milk = new SimpleProduct("Milk", 100);
+        DiscountedProduct cheese = new DiscountedProduct("Cheese", 100, 20);
+
+        searchEngine.add(coffee);
+        searchEngine.add(milk);
+        searchEngine.add(cheese);
+
+        Article article1 = new Article("Coffe", "Coffee - popular drink");
+        Article article2 = new Article("Milk", "Milk has calcium");
+        Article article3 = new Article("Cheese", "Cheese has different types");
+
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
+
+        System.out.println(Arrays.toString(searchEngine.search("Coffee")));
+        System.out.println(Arrays.toString(searchEngine.search("Cheese")));
+
+        Searchable[] result = searchEngine.search("Milk");
+        System.out.println(Arrays.toString(result));
+        for (Searchable searchable : result) {
+            if (searchable != null) {
+                System.out.println(searchable.getStringRepresentation());
+            }
+
+        }
+    }
 }
