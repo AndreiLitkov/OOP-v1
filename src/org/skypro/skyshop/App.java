@@ -81,9 +81,16 @@ public class App {
         searchEngine.add(article2);
         searchEngine.add(article3);
 
-        Searchable[] result = searchEngine.search("Milk");
-        System.out.println(Arrays.toString(result));
         System.out.println(Arrays.toString(searchEngine.search("Coffee")));
         System.out.println(Arrays.toString(searchEngine.search("Cheese")));
+
+        Searchable[] result = searchEngine.search("Milk");
+        System.out.println(Arrays.toString(result));
+        for (Searchable searchable : result) {
+            if (searchable != null) {
+                System.out.println(searchable.getStringRepresentation());
+            }
+
+        }
     }
 }
