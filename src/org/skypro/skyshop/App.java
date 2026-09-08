@@ -2,10 +2,7 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.articles.Article;
 import org.skypro.skyshop.basket.ProductBasket;
-import org.skypro.skyshop.product.DiscountedProduct;
-import org.skypro.skyshop.product.FixPriceProduct;
-import org.skypro.skyshop.product.Product;
-import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.product.*;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 
@@ -91,6 +88,81 @@ public class App {
                 System.out.println(searchable.getStringRepresentation());
             }
 
+        }
+
+        System.out.println("======================");
+        System.out.println("Исключения");
+
+        try {
+            SimpleProduct product10 =
+                    new SimpleProduct("", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            SimpleProduct product11 =
+                    new SimpleProduct("Молоко", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            DiscountedProduct product12 =
+                    new DiscountedProduct("Хлеб", 0, 20);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            DiscountedProduct product13 =
+                    new DiscountedProduct("Сыр", 100, 101);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            DiscountedProduct product14 =
+                    new DiscountedProduct("Масло", 100, -10);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            FixPriceProduct product15 =
+                    new FixPriceProduct(null, 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        SimpleProduct milk1 = new SimpleProduct("Молоко", 100);
+        DiscountedProduct bread = new DiscountedProduct("Хлеб", 80, 20);
+        FixPriceProduct coffee1 = new FixPriceProduct("Кофе", 150);
+
+        Article article10 = new Article("Молоко", "Молоко полезно. Молоко содержит кальций.");
+        Article article11 = new Article("Кофе","Кофе является популярным напитком.");
+        Article article12 = new Article("Хлеб", "Хлеб — важный продукт.");
+
+        SearchEngine searchEngine1 = new SearchEngine(10);
+        searchEngine1.add(milk1);
+        searchEngine1.add(bread);
+        searchEngine1.add(coffee1);
+
+        searchEngine1.add(article10);
+        searchEngine1.add(article11);
+        searchEngine1.add(article12);
+
+        try {
+            Searchable result1 = searchEngine1.findBestMatch("Молоко");
+            System.out.println(result1.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            Searchable result1 = searchEngine1.findBestMatch("Самолёт");
+            System.out.println(result1.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println(e.getMessage());
         }
     }
 }
